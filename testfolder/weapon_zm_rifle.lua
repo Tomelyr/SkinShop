@@ -96,6 +96,10 @@ function SWEP:PreDrawViewModel( vm, wep, ply )
 	vm:SetMaterial( "skinshop/scout/desertsnow/v_desertsnow" )
 end
 
+function SWEP:DrawWorldModel()
+	self:SetMaterial( "skinshop/scout/desertsnow/w_desertsnow" )
+	self:DrawModel()
+end
 
 if CLIENT then
    local scope = surface.GetTextureID("sprites/scope")

@@ -4,9 +4,9 @@ ITEM.Price = 200		  // Price of the Skin
 ITEM.Material = 'trails/electric.vmt' // Preview Screenshot? Need to look into the Manual
 
 --[[ Skin Information ]]--
-WeaponClass = "weapon_zm_rifle"
-ViewModel = "skinshop/scout/desertsnow/v_desertsnow"
-WorldModel = "skinshop/scout/desertsnow/w_desertsnow"
+local WeaponClass = "weapon_zm_rifle"
+local ViewModel = "skinshop/scout/desertsnow/v_desertsnow"
+local WorldModel = "skinshop/scout/desertsnow/w_desertsnow"
 
 --[[ Functions ]]--
 function ITEM:OnEquip(ply, modifications)

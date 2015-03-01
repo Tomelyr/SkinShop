@@ -1,0 +1,7 @@
+VertexLitGeneric
+{
+	"$basetexture"	"skinshop\scout\wooden\v_snip_scout"
+	"$envmap" "env_cubemap"
+	"$envmapmask" "skinshop\scout\wooden\v_snip_scout_ref"
+
+}

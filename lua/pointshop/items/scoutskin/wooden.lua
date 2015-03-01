@@ -1,12 +1,12 @@
 --[[ Basic Informations ]]--
-ITEM.Name = 'Mehndi' // Name of the Skin
+ITEM.Name = 'Wooden' // Name of the Skin
 ITEM.Price = 200		  // Price of the Skin
 ITEM.Material = 'trails/electric.vmt' // Preview Screenshot? Need to look into the Manual
 
 --[[ Skin Information ]]--
-local WeaponClass = "weapon_zm_pistol"
-local ViewModel = "skinshop/p250/mehndi/p250"
-local WorldModel = "skinshop/p250/mehndi/p250"
+local WeaponClass = "weapon_zm_rifle"
+local ViewModel = "skinshop/scout/wooden/v_snip_scout"
+local WorldModel = "skinshop/scout/wooden/w_snip_scout"
 
 --[[ Functions ]]--
 function ITEM:OnEquip(ply, modifications)

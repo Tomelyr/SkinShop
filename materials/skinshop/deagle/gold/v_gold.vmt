@@ -1,0 +1,7 @@
+VertexLitGeneric
+{
+	"$basetexture"	"skinshop\deagle\gold\v_gold"
+	"$envmap" "env_cubemap"
+	"$envmapmask" "skinshop\deagle\gold\v_gold_ref"
+
+}

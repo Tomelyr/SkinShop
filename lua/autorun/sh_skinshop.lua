@@ -3,14 +3,15 @@
 
 if SERVER then
 	AddCSLuaFile()
-	util.AddNetworkString("SkinShop_Sync")
+	util.AddNetworkString("SkinShop_SyncVM")
+	util.AddNetworkString("SkinShop_SyncWM")
 	
 	hook.Add("WeaponEquip", "SkinShop_equipper", function( wep )
 		timer.Simple(0.1, function()
 			if IsValid(wep) then
 				local ply = wep:GetOwner()
 				if IsValid(ply) then
-					net.Start("SkinShop_Sync")
+					net.Start("SkinShop_SyncVM")
 					net.Send(ply)
 				else
 					print("Attempted to sync Skin Shop with invalid player")
@@ -19,6 +20,13 @@ if SERVER then
 				print("Attempted to sync Skin Shop with invalid entity")
 			end
 		end)
+	end)
+	net.Receive("SkinShop_SyncWM", function(len, ply)
+		local wep = net.ReadEntity()
+		wep.OnDrop = function( self )
+			self:SetMaterial("")
+		end
+		wep:SetMaterial(ply:GetNWString(wep:GetClass().."_wm"))
 	end)
 end
 
@@ -39,11 +47,14 @@ if CLIENT then
 		
 		for _, weapon in pairs( LocalPlayer():GetWeapons() ) do	-- Check all weapons in case we switched 
 			if LocalPlayer():GetNWString(weapon:GetClass().."_wm") != "" then
+				net.Start("SkinShop_SyncWM")
+				net.WriteEntity(weapon)
+				net.SendToServer()
 				-- Function override
-				weapon.DrawWorldModel = function( self )
+				/*weapon.DrawWorldModel = function( self )
 					self:SetMaterial( LocalPlayer():GetNWString((self:GetClass().."_wm") ) )
 					self:DrawModel()
-				end
+				end*/
 			end
 		end
 
@@ -60,6 +71,6 @@ if CLIENT then
 		end)
 	end
 	
-	net.Receive("SkinShop_Sync", setSkin)
+	net.Receive("SkinShop_SyncVM", setSkin)
 end
 

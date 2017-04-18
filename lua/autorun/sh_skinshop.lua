@@ -4,7 +4,7 @@
 
 SkinShop = SkinShop or {}
 SkinShop.SkinTbl = SkinShop.SkinTbl or {}
-SkinShop.Debug = true	
+SkinShop.Debug = false	
 
 function SkinShop.Print(str)
 	if SkinShop.Debug then
@@ -72,6 +72,7 @@ if SERVER then
 		net.Send(ply)
 		ply:GetActiveWeapon():SetMaterial("")
 	end
+	
 	function SkinShop.SetSkin(ply, wep)
 		if ply:GetNWString(wep:GetClass() .. "_wm_type") == "material" then
 			wep:SetMaterial(ply:GetNWString(wep:GetClass().."_wm"))
@@ -80,6 +81,7 @@ if SERVER then
 			wep:SetSubMaterial(ply:GetNWInt(wep:GetClass() .. "_wm_id"), ply:GetNWString(wep:GetClass().."_wm"))
 		end
 	end
+	
 	hook.Add("PlayerSwitchWeapon", "SkinShop_switcher", function(ply, _uneeded, wep)
 		if IsValid(wep) then
 			if IsValid(ply) then
@@ -91,7 +93,9 @@ if SERVER then
 		else
 			print("Attempted to sync Skin Shop with invalid entity")
 		end
+			SkinShop.SetSkin(ply, wep)
 	end)
+
 	hook.Add("WeaponEquip", "SkinShop_equipper", function( wep )
 		timer.Simple(0.1, function()
 			if IsValid(wep) then
@@ -99,6 +103,7 @@ if SERVER then
 				if IsValid(ply) then
 					net.Start("SkinShop_SyncVM")
 					net.Send(ply)
+					SkinShop.SetSkin(ply, wep)
 				else
 					print("Attempted to sync Skin Shop with invalid player")
 				end
@@ -107,23 +112,11 @@ if SERVER then
 			end
 		end)
 	end)
+		
 	net.Receive("SkinShop_SyncWM", function(len, ply)
 		local wep = net.ReadEntity()
-		wep.OldOnDrop = wep.OldOnDrop or wep.OnDrop
-		wep.OnDrop = function( self )
-			self:SetMaterial("")
-			for k,v in pairs(self:GetMaterials()) do
-				self:SetSubMaterial(k -1, "")
-			end
-			self:OldOnDrop()
-		end
 		SkinShop.SetSkin(ply, wep)
-		if ply:GetNWString(wep:GetClass() .. "_wm") == "" then
-			wep:SetMaterial("")
-		end
-
 	end)
-
 end
 if CLIENT then
 	local function setSkin()
@@ -143,11 +136,6 @@ if CLIENT then
 				net.Start("SkinShop_SyncWM")
 				net.WriteEntity(weapon)
 				net.SendToServer()
-				-- Function override
-				/*weapon.DrawWorldModel = function( self )
-					self:SetMaterial( LocalPlayer():GetNWString((self:GetClass().."_wm") ) )
-					self:DrawModel()
-				end*/
 			end
 		end
 	end
@@ -167,5 +155,5 @@ if CLIENT then
 		vm:SetMaterial() -- So the texture doesn't affect other weapons
 	end)
 
-	net.Receive("SkinShop_SyncVM", setSkin)
+	net.Receive("SkinShop_SyncVM", setSkin)	
 end

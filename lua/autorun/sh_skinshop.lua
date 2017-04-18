@@ -112,9 +112,9 @@ if SERVER then
 		wep.OldOnDrop = wep.OldOnDrop or wep.OnDrop
 		wep.OnDrop = function( self )
 			self:SetMaterial("")
-			/*for k,v in pairs(self:GetMaterials) do
+			for k,v in pairs(self:GetMaterials()) do
 				self:SetSubMaterial(k -1, "")
-			end*/
+			end
 			self:OldOnDrop()
 		end
 		SkinShop.SetSkin(ply, wep)
@@ -155,7 +155,7 @@ if CLIENT then
 		if weapon and vm then 
 			if ply:GetNWString(weapon:GetClass().."_vm") != nil then 
 				if ply:GetNWString(weapon:GetClass() .."_vm_type") == "submaterial" then
-					vm:SetSubMaterial(vm:GetOwner():GetNWInt(wep:GetClass() .. "_vm_id"), vm:GetOwner():GetNWString(wep:GetClass().."_vm"))
+					vm:SetSubMaterial(vm:GetOwner():GetNWInt(weapon:GetClass() .. "_vm_id"), vm:GetOwner():GetNWString(weapon:GetClass().."_vm"))
 				else
 					vm:SetMaterial( ply:GetNWString(weapon:GetClass().."_vm") )
 				end

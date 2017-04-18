@@ -23,10 +23,17 @@ if SERVER then
 	end)
 	net.Receive("SkinShop_SyncWM", function(len, ply)
 		local wep = net.ReadEntity()
+		if not wep.OldOnDrop then wep.OldOnDrop = wep.OnDrop end
+		if not wep.OldDeploy then wep.OldDeploy = wep.Deploy end
+		wep.Deploy = function( self )
+			self:SetMaterial(self:GetOwner():GetNWString(wep:GetClass().."_wm"))
+			self:OldDeploy()
+		end
 		wep.OnDrop = function( self )
 			self:SetMaterial("")
+			self:OldOnDrop()
 		end
-		wep:SetMaterial(ply:GetNWString(wep:GetClass().."_wm"))
+		wep:SetMaterial(ply:GetNWString(wep:GetClass().."_wm")) -- unneeded?
 	end)
 end
 

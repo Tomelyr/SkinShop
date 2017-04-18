@@ -3,23 +3,15 @@ ITEM.Name = 'Wooden' // Name of the Skin
 ITEM.Price = 200		  // Price of the Skin
 ITEM.Material = 'trails/electric.vmt' // Preview Screenshot? Need to look into the Manual
 
---[[ Skin Information ]]--
-local WeaponClass = "weapon_zm_rifle"
-local ViewModel = "skinshop/scout/wooden/v_snip_scout"
-local WorldModel = "skinshop/scout/wooden/w_snip_scout"
-
 --[[ Functions ]]--
 function ITEM:OnEquip(ply, modifications)
-	ply:SetNWString(WeaponClass .. "_vm", ViewModel)
-	ply:SetNWString(WeaponClass .. "_wm", WorldModel)
+	SkinShop.LoadSkin("wooden", ply)
 end
 
 function ITEM:OnHolster(ply)
-	ply:SetNWString(WeaponClass .. "_vm", "")
-	ply:SetNWString(WeaponClass .. "_wm", "")
+	SkinShop.UnLoadSkin("wooden", ply)
 end
 
 function ITEM:OnSell(ply)
-	ply:SetNWString(WeaponClass .. "_vm", "")
-	ply:SetNWString(WeaponClass .. "_wm", "")
+	SkinShop.UnLoadSkin("wooden", ply)
 end

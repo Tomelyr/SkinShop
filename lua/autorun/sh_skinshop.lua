@@ -153,6 +153,7 @@ if CLIENT then
 
 	hook.Add("PostDrawViewModel", "SkinShop_vmHandler_Fix", function (vm, ply, weapon)
 		vm:SetMaterial() -- So the texture doesn't affect other weapons
+		vm:SetSubMaterial(nil,nil)
 	end)
 
 	net.Receive("SkinShop_SyncVM", setSkin)	
